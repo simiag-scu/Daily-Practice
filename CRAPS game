@@ -1,0 +1,46 @@
+import random
+money = 1000
+print('welcome! \nyou have $1000 to play the game \nhave fun!')
+input('tab any button to enter')
+while money >= 100:
+    a=input('tab any button to continue(1 to leave)')
+    if a =='1':
+        break
+    #第一次摇色子
+    num1=random.randrange(1,7)
+    num2=random.randrange(1,7)
+    firstnum=num2+num1
+    #第一次点数
+    print(f'you get {num1} and {num2}, which is {num2+num1} in total!')
+    if num2+num1==7 or num2+num1==11 :
+        print('you win!')
+        money+=100
+        print(f'now you have ${money}')
+        continue
+    elif num2+num1==2 or num2+num1==3 or num2+num1==11:
+        print('you lose!')
+        money-=100
+        print(f'now you have ${money}')
+        continue
+    #进入第二局
+    else:
+        judge = True
+        while judge:
+            print('try again!')
+            input('tab any button to continue')
+            num1 = random.randrange(1, 7)
+            num2 = random.randrange(1, 7)
+            print(f'you get {num1} and {num2}, which is {num2 + num1} in total!')
+            if num2 + num1 == firstnum:
+                print('you win!')
+                money += 100
+                judge = False
+                print(f'now you have ${money}')
+                continue
+            elif num2 + num1 == 7:
+                print('you lose!')
+                money -= 100
+                judge = False
+                print(f'now you have ${money}')
+                continue
+print(f'thanksn for your playing you have ${money} left!')
