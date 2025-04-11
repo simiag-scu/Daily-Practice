@@ -1,0 +1,23 @@
+# 统计计算
+def sum_mean(*nums):
+    n=len(nums)
+    sumnum = 0
+    for _ in nums:
+        sumnum += _
+    return round(sumnum/n,6)
+
+def sam_var(*nums):
+    n = len(nums)
+    sum_fang = 0
+    for _ in nums:
+        sum_fang += (_ - sum_mean(*nums)) ** 2
+    return round(sum_fang/(n-1),6)
+
+def sam_biao(*nums):
+    return round( sam_var(*nums) ** 0.5 , 6)
+
+def CV_count(*nums):
+    return round( sam_biao(*nums)/sum_mean(*nums), 6)
+
+#示例
+print(CV_count(12,3,4,43,356,24,3457,367,3,6778,235765867,234534,5,675))
