@@ -1,0 +1,17 @@
+def judgesushu(input_num):
+    num = int (input_num)
+    if num > 1:
+        end = int(num ** 0.5)
+        judge = False
+        for _ in range (2,end+1):
+            if num % _ == 0:
+                judge = True
+                break
+        if judge:
+            print('nein')
+        else:
+            print('ya')
+    else:
+        print('input wrong key')
+ #示例
+judgesushu(7)    #ya
