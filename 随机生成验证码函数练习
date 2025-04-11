@@ -7,7 +7,7 @@ import random
 def verifi_code_gain(num):
     _codes = []
     random_code = ''
-    for _ in range(num):
+    for _ in range(num=6):
         random_num = random.randrange(0,10)
         _codes.append(random_num)
     for _ in _codes:
