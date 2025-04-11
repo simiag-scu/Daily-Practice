@@ -1,0 +1,19 @@
+#随机生成验证码
+# 设计一个生成随机验证码的函数，
+# 验证码由数字和英文大小写字母构成，
+# 长度可以通过参数设置。
+import random
+
+def verifi_code_gain(num):
+    _codes = []
+    random_code = ''
+    for _ in range(num):
+        random_num = random.randrange(0,10)
+        _codes.append(random_num)
+    for _ in _codes:
+        random_code += str(_)
+    return random_code
+
+#示例
+code_test = verifi_code_gain(6)
+print(code_test)
