@@ -1,0 +1,16 @@
+#最大公约数和最小公倍数
+def maxmini(num1 : int,num2 : int) -> list :
+    if num2 == num1:
+        return [num1,num2]
+    else:
+        bigger = max(num1,num2)
+        smaller = min(num1,num2)
+        probablenums = list(range(1,smaller+1))
+        probablenums.reverse()
+        for _ in probablenums :
+            if num2 % _ == 0 and num1 % _ == 0 :
+                zuixiao = int(num1*num2/_)
+                return [_,zuixiao]
+
+#示例
+print(maxmini(32,48))
