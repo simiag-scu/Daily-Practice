@@ -1,0 +1,10 @@
+def quick_sort(lst):
+    if len(lst) < 2:
+        return lst
+    else:
+        stand = lst.pop(0)
+        less = [ i for i in lst if i <= stand ]
+        bigger = [i for i in lst if i > stand ]
+        return quick_sort(less) + [stand] + quick_sort(bigger)
+
+print(quick_sort([2,5,8,3,5,10,1]))
