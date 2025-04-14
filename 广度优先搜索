@@ -1,0 +1,19 @@
+graph = {}
+graph['you'] = [ 'bob' , 'alice' , 'claire' ]
+graph['bob'] = ['anuj' , 'peggy']
+graph['anuj'] = []
+graph['peggy'] = []
+graph['alice'] = ['peggy']
+
+def search(frm,target):
+    lst = []
+    for _ in graph[frm]:
+        if _ == target:
+            return _
+        elif _ in lst:
+            continue
+        else:
+            lst.append(_)
+            return _ + '~' + search(_,target)
+
+print(search('you','anuj'))
