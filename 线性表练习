@@ -1,0 +1,157 @@
+//写一个线性表，实现大部分功能
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAXSIZE 50
+typedef int ElemType;
+
+//设置顺序表结构
+struct SqList {
+    ElemType data[MAXSIZE];  //元素个数
+    int length;              //长度
+};
+
+typedef struct SqList SqList;
+
+//初始化列表
+int initList(SqList *L) {
+    L->length = 0;
+    return 0;
+}
+
+//插入操作
+int ListInsert(SqList *L, int pos, ElemType e) {
+    if ( pos < 1 || pos > L->length + 1 )    //判断是否在正确位置
+        return 0;
+    if (L->length >= MAXSIZE)   //当前存储空间已满
+        return 0;
+    for ( int i = L->length-1; i >=pos-1; i--) {   //i是下标
+        L->data[i+1] = L->data[i];
+    }
+    L->data[pos-1] = e;
+    L->length++;
+    return 1;
+}
+
+
+//删除一个元素
+int ListDelete(SqList *L, int pos, ElemType *e) {
+    if (L->length<=0 || pos<1 || pos>L->length)
+        return 0;
+    *e = L->data[pos-1];
+    for (int i = pos ; i <= L->length-1 ; i++) {    //i是下标
+        L->data[i-1] = L->data[i];
+    }
+    L->length--;
+    return 1;
+}
+
+//按值查找,返回位序
+int LocateElem(SqList L, ElemType e) {
+    for (int i = 0; i < L.length; i++) {
+        if (L.data[i] == e)
+            return i+1;      //强调不是返回下标
+    }
+    return 0;
+}
+
+//按位查找
+int GetElem(SqList L, int pos) {
+    if (pos<1 || pos>L.length)
+        return 0;
+    return L.data[pos-1];      //下标比位序小1
+}
+
+//在末尾添加
+int ListAppend(SqList *L, ElemType e) {
+    ListInsert(L,L->length+1,e);
+}
+
+//输出列表
+int ShowList(SqList *L) {
+    printf("[");
+    for (int i = 0; i < L->length-1; i++) {
+        printf("%d,",L->data[i]);
+    }
+    printf("%d]\n",L->data[L->length-1]);
+}
+
+//删除最小值，用最后一个数代替
+int List_Get_and_Del_Minimum(SqList *list) {
+    int del_num;    //被删除的数
+    if (list->length == 0) {
+        return 0;
+        printf("列表为空，无法操作");
+    }
+    int mini= 0;
+    for (int i = 0; i <= list->length-1; i++) {     //i是下标
+        if (list->data[i] < list->data[mini]) {
+            mini = i;
+        }
+    }
+    del_num = list->data[mini];
+    list->data[mini] = list->data[list->length-1];   //最后一位数顶替
+    list->length--;
+    return del_num;
+}
+
+
+//倒置列表，空间复杂度为O(1)
+int ListSwap(struct SqList *L) {
+    if (L->length == 0) {
+        return 0;
+    }
+    for (int i = 1; i <= L->length/2; i++) {
+        ElemType temp = L->data[i-1];
+        L->data[i-1] = L->data[L->length-i];
+        L->data[L->length-i] = temp;
+    }
+    return 1;
+}
+
+//测试一下
+int main() {
+    SqList my_list;
+    initList(&my_list);
+    ListAppend(&my_list,1);
+    ShowList(&my_list);
+
+    ListAppend(&my_list,2);
+    ShowList(&my_list);
+
+    for (int i = 3; i <= 10; i++ ) {
+        ListAppend(&my_list,i);
+    }
+    printf("删除前的列表是：");
+    ShowList(&my_list);
+
+    ElemType del_i;
+    ListDelete(&my_list,3, &del_i );
+    printf("删除后的列表是：");
+    ShowList(&my_list);
+
+    printf("删除的元素是%d\n",del_i);
+    ListInsert(&my_list,3,3);
+    printf("添加后的列表是：");
+    ShowList(&my_list);
+
+    int locate_i;
+    locate_i = LocateElem(my_list,7);
+    printf("7的位置在第%d位\n",locate_i);
+
+    int locate_j;
+    locate_j = GetElem(my_list,5);
+    printf("第5个数是%d\n",locate_j);
+
+    int mini_del;
+    mini_del = List_Get_and_Del_Minimum(&my_list);
+    printf("最小的数是：%d,替换后的表是：",mini_del);
+    ShowList(&my_list);
+
+    printf("此时列表的长度为%d\n",my_list.length);
+    ListSwap(&my_list);
+    ShowList(&my_list);
+
+    return 0;
+}
