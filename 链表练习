@@ -1,0 +1,175 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef int ElemType;
+
+//节点基本状态
+struct Node {
+    ElemType data;
+    struct Node *next;
+};
+
+typedef struct Node Node;
+
+//生成新头节点
+Node Node_Getnew(int val) {
+    Node *p = (Node *)malloc(sizeof(Node));
+    p->data = val;
+    p->next = NULL;
+    return *p;
+}
+
+//清空链表(有问题)
+int Node_clear(Node *head) {
+    if (head == NULL) {
+        return 0;
+    }
+    for (Node *p = head->next,*q; p; p = q) {
+        q = p->next;
+        free(p);
+    }
+    head = NULL;
+    return 1;
+}
+
+//头添加
+int Node_Headadd(Node *head, ElemType val) {
+    if (head == NULL) {
+        return 0;
+    }
+    Node *p=(Node *)malloc(sizeof(Node));
+    p->data = val;
+    p->next = head->next;
+    head->next = p;
+    return 1;
+}
+
+//尾添加
+int Node_Tailadd(Node *head, ElemType val) {
+    if (head == NULL) {
+        return 0;
+    }
+    Node *p = (Node * )malloc(sizeof(Node));
+    Node *q = head;
+    while ( q->next != NULL) {
+        q = q->next;
+    }
+    p-> data = val;
+    p->next = NULL;
+    q->next = p;
+}
+
+//添加元素
+int Node_ADD(Node *head,int pos,ElemType val){
+    if (head == NULL){
+        return 0;
+    }
+    if (pos == 1) {
+        printf("不支持修改头节点！\n");
+        return 0;
+    }
+    Node *p = (Node *)malloc(sizeof(Node));
+    Node *q;
+    q = head;
+    int i = 1;
+    while (i < pos-1){
+        q = q->next;
+        i++;             //执行pos-2次，找到第pos-1个
+    }
+    //检查链表是否够长
+    if (q == NULL || i > pos-1 ){
+        printf("不正确的输入！\n");
+        return 0;
+    }
+
+    //创建p节点
+    p->data = val;
+    p->next = q->next;
+    q->next = p;
+}
+
+//删除元素
+int Node_Del(Node *head,int pos){
+    if (head == NULL){
+        return 0;
+    }
+    Node *q;
+    q = head;
+    for(int i=1;i<pos-1;i++){
+        q = q->next;               //执行pos-2次，找到第pos-1个
+    }
+    Node *del = q->next;
+    q->next = del->next;
+    free(del);
+}
+
+//反转链表
+Node Node_Reverse(Node *head){
+    Node *first = NULL;
+    Node *second = head;
+    Node *third = head->next;
+
+    while(second){
+        second->next = first;
+        first = second;
+        second = third;
+        third = second->next;
+    }
+
+    //创造新头节点
+
+    Node *q = Node_Getnew(first->data);
+    q.next = first->next;
+    return q;
+}
+
+//展示链表
+int Node_show(Node *head) {
+    if (head == NULL) {
+        printf("链表为空!");
+        return 0;
+    }
+    int p = 1;    //计数
+    printf("[");
+    while (head->next != NULL) {
+        printf("%d,", head->data);
+        head = head->next;
+        p++;
+    }
+    printf("%d]\n", head->data);
+    return p;
+}
+
+
+int main() {
+
+    Node my_node = Node_Getnew(1);
+    Node_Headadd(&my_node, 2);
+    Node_Headadd(&my_node, 3);
+    Node_Headadd(&my_node, 4);
+    int nodenum = Node_show(&my_node);
+    printf("链表元素个数为：%d\n", nodenum);
+
+    Node_Tailadd(&my_node,7);
+    Node_show(&my_node);
+
+    //在第3位添加元素8
+    Node_ADD(&my_node,4,8);
+    printf("添加后的链表为：");
+    Node_show(&my_node);
+
+    //删除第二个数
+    Node_Del(&my_node,2);
+    printf("删除后的链表是：");
+    Node_show(&my_node);
+
+    //颠倒链表
+    Node reversed_head = Node_Reverse(&my_node );
+    printf("颠倒后的列表是：");
+    Node_show(&reversed_head);
+
+    Node_clear(&my_node);
+    Node_clear(&reversed_head);
+    return 0;
+}
